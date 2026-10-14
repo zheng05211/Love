@@ -1412,6 +1412,7 @@ beginBirthday.addEventListener('click', async () => {
   if (birthdayStarted) return;
 
   birthdayStarted = true;
+  birthdaySound('success');
   birthdayMusicOn = true;
 
   musicWelcome.classList.add('leaving');
