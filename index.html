@@ -374,6 +374,111 @@ input[type="range"] {
   margin-top: 18px;
 }
 
+/* Heart balloon squeeze animation */
+
+.balloon-stage {
+  text-align: center;
+  padding: 12px 0 4px;
+}
+
+.heart-balloon {
+  display: inline-block;
+  font-size: 100px;
+  line-height: 1.4;
+  transform-origin: center bottom;
+  filter: drop-shadow(0 10px 12px #e94e9120);
+  animation: balloonFloat 2s ease-in-out infinite;
+}
+
+@keyframes balloonFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-9px) rotate(3deg); }
+}
+
+.heart-balloon.squeeze {
+  animation: balloonSqueeze .42s ease-in-out;
+}
+
+@keyframes balloonSqueeze {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.28, .72) rotate(-8deg); }
+  45%  { transform: scale(.78, 1.24) rotate(8deg); }
+  65%  { transform: scale(1.18, .84) rotate(-5deg); }
+  82%  { transform: scale(.94, 1.08) rotate(4deg); }
+  100% { transform: scale(1); }
+}
+
+.heart-balloon.shake {
+  animation: balloonShake .12s linear 4;
+}
+
+@keyframes balloonShake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  25% { transform: translateX(-7px) rotate(-5deg); }
+  75% { transform: translateX(7px) rotate(5deg); }
+}
+
+.heart-balloon.pop {
+  animation: balloonPop .5s ease-in forwards;
+}
+
+@keyframes balloonPop {
+  0% { transform: scale(1); opacity: 1; }
+  35% { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.squeeze-count {
+  color: #e94d91;
+  font-weight: 800;
+  margin: 8px 0;
+}
+
+.squeeze-progress {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin: 14px 0;
+}
+
+.squeeze-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ffe0ed;
+  border: 1px solid #f3a9c8;
+  transition: transform .2s, background .2s;
+}
+
+.squeeze-dot.filled {
+  background: #e94d91;
+  transform: scale(1.2);
+}
+
+.burst-screen {
+  animation: screenShake .45s ease-in-out;
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.squeeze-button {
+  min-width: 190px;
+  margin-top: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heart-balloon,
+  .heart-balloon.squeeze,
+  .heart-balloon.shake,
+  .heart-balloon.pop {
+    animation: none !important;
+  }
+}
+
 /* Unlock popup */
 
 .modal-backdrop {
@@ -490,39 +595,131 @@ input[type="range"] {
     </p>
   </header>
 
-  <!-- LOVE METER -->
 
-  <section class="card" id="loveCard">
-    <div class="kicker">Level 01 · The love meter</div>
+/* =========================================
+   LOVE METER + HEART BALLOON CHALLENGE
+   ========================================= */
 
-    <h2>How much do you love me? ❤️</h2>
+const range = document.getElementById('loveRange');
+const percent = document.getElementById('percent');
+const hint = document.getElementById('hint');
+const giftCard = document.getElementById('giftCard');
+const contentCard = document.getElementById('contentCard');
+const loveCard = document.getElementById('loveCard');
 
-    <p>Move the little heart and show me how much you love me. 💗</p>
+const balloonStage = document.getElementById('balloonStage');
+const heartBalloon = document.getElementById('heartBalloon');
+const squeezeBtn = document.getElementById('squeezeBtn');
+const squeezeCount = document.getElementById('squeezeCount');
+const squeezeDots = document.querySelectorAll('.squeeze-dot');
 
-    <div class="meter-row">
-      <span>Our love meter</span>
-      <span class="percent" id="percent">0%</span>
-    </div>
+let extended = false;
+let unlocked = false;
+let squeezeAttempts = 0;
+const REQUIRED_SQUEEZES = 5;
+let balloonPopped = false;
 
-    <input
-      id="loveRange"
-      type="range"
-      min="0"
-      max="100"
-      step="1"
-      value="0"
-      aria-label="Love percentage"
-    >
+range.addEventListener('input', () => {
+  const n = Number(range.value);
 
-    <div class="range-labels">
-      <span id="rangeMin">0%</span>
-      <span id="rangeMax">100%</span>
-    </div>
+  // First stage: reach 100%.
+  if (n >= 100 && !extended) {
+    extended = true;
 
-    <p class="hint" id="hint" aria-live="polite">
-      Psst... keep going, my love. There's a little surprise waiting! ✨
-    </p>
-  </section>
+    // Keep the slider at 100%; no instant jump to 1000%.
+    range.max = 100;
+    range.value = 100;
+    range.disabled = true;
+
+    percent.textContent = '100%';
+    document.getElementById('rangeMin').textContent = '0%';
+    document.getElementById('rangeMax').textContent = '100%';
+
+    hint.textContent =
+      "100% already?! Hmm... something is stopping you! 🎈";
+
+    balloonStage.classList.remove('hidden');
+    squeezeCount.textContent =
+      "Maybe your love needs a little more squeezing! 💗";
+
+    burst(12);
+    return;
+  }
+
+  percent.textContent = n + '%';
+});
+
+squeezeBtn.addEventListener('click', () => {
+  if (balloonPopped || unlocked) return;
+
+  squeezeAttempts++;
+
+  // Replay the squeeze animation.
+  heartBalloon.classList.remove('squeeze', 'shake');
+  void heartBalloon.offsetWidth;
+  heartBalloon.classList.add('squeeze');
+
+  // Make the balloon appear fuller with every squeeze.
+  const scale = 1 + squeezeAttempts * 0.075;
+  heartBalloon.style.fontSize = (100 * scale) + 'px';
+
+  squeezeDots.forEach((dot, index) => {
+    dot.classList.toggle('filled', index < squeezeAttempts);
+  });
+
+  if (squeezeAttempts === 1) {
+    squeezeCount.textContent = "A little squeeze! Again, my love! 💕";
+    hint.textContent = "Something is happening... keep going! ✨";
+    squeezeBtn.textContent = "Squeeze again! 🎈";
+  } else if (squeezeAttempts === 2) {
+    squeezeCount.textContent = "It's getting bigger! Keep squeezing! 💗";
+    squeezeBtn.textContent = "Harder! 💪";
+  } else if (squeezeAttempts === 3) {
+    squeezeCount.textContent = "Whoa! It's getting HUGE! 🥰";
+    squeezeBtn.textContent = "One more big squeeze!";
+  } else if (squeezeAttempts === 4) {
+    squeezeCount.textContent = "OH NO... IT'S ABOUT TO POP! 😳";
+    hint.textContent = "Quick, one final squeeze, birthday girl!";
+    heartBalloon.classList.add('shake');
+    squeezeBtn.textContent = "FINAL SQUEEZE!! 💥";
+  }
+
+  if (squeezeAttempts >= REQUIRED_SQUEEZES) {
+    balloonPopped = true;
+    squeezeBtn.disabled = true;
+    squeezeBtn.textContent = "POP!! 💥";
+
+    heartBalloon.classList.remove('squeeze', 'shake');
+    void heartBalloon.offsetWidth;
+    heartBalloon.classList.add('pop');
+
+    document.body.classList.add('burst-screen');
+    setTimeout(() => {
+      document.body.classList.remove('burst-screen');
+    }, 500);
+
+    burst(75);
+
+    setTimeout(() => {
+      percent.textContent = '1000%';
+      document.getElementById('rangeMin').textContent = '100%';
+      document.getElementById('rangeMax').textContent = '1000%';
+
+      hint.textContent =
+        "POP!! Your love broke the meter! 1000% LOVE! ❤️";
+
+      squeezeCount.textContent =
+        "1000% LOVE UNLOCKED!! You did it, my love! 💖";
+
+      unlocked = true;
+
+      setTimeout(() => {
+        document.getElementById('unlockModal')
+          .classList.remove('hidden');
+      }, 450);
+    }, 550);
+  }
+});
 
   <!-- UNLOCKED GIFTS -->
 
