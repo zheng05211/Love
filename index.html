@@ -926,74 +926,129 @@ Wish you happy birthday, my love. I love you, like first time and always. 💗
 
 (pss, I tried to write this letter with my broken english to show you it is not from ChatGPT, and maybe english is more romantic? haha)`;
 
+  /* =========================================
+   LOVE METER + HEART BALLOON CHALLENGE
+   ========================================= */
+
 const range = document.getElementById('loveRange');
 const percent = document.getElementById('percent');
 const hint = document.getElementById('hint');
-const giftCard = document.getElementById('giftCard');
-const contentCard = document.getElementById('contentCard');
-const loveCard = document.getElementById('loveCard');
+
+const balloonStage = document.getElementById('balloonStage');
+const heartBalloon = document.getElementById('heartBalloon');
+const squeezeBtn = document.getElementById('squeezeBtn');
+const squeezeCount = document.getElementById('squeezeCount');
+const squeezeDots = document.querySelectorAll('.squeeze-dot');
 
 let extended = false;
 let unlocked = false;
+let squeezeAttempts = 0;
+const REQUIRED_SQUEEZES = 5;
+let balloonPopped = false;
 
 range.addEventListener('input', () => {
-  let n = Number(range.value);
+  const n = Number(range.value);
 
-  // She has reached the apparent maximum.
   if (n >= 100 && !extended) {
     extended = true;
-
-    // Secretly extend the meter to 1000%.
-    range.max = 1000;
-    range.value = 100;
-
-    document.getElementById('rangeMin').textContent = '100%';
-    document.getElementById('rangeMax').textContent = '1000%';
+    range.disabled = true;
 
     percent.textContent = '100%';
+    document.getElementById('rangeMin').textContent = '0%';
+    document.getElementById('rangeMax').textContent = '100%';
 
     hint.textContent =
-      "100% already?! Wait... there's MORE? Keep going, my love! 💗";
+      "100% already?! Hmm... something is stopping you! 🎈";
 
-    burst(18);
-    return;
-  }
+    balloonStage.classList.remove('hidden');
+    squeezeCount.textContent =
+      "Maybe your love needs a little more squeezing! 💗";
 
-  n = Number(range.value);
-  percent.textContent = n + '%';
-
-  if (n < 100) {
-    hint.textContent =
-      "Psst... keep going, my love. There's a surprise waiting! ✨";
-  } else if (n < 300) {
-    hint.textContent =
-      "Hehe, you found the secret! Let's see how far your love goes! 💗";
-  } else if (n < 600) {
-    hint.textContent =
-      "300% LOVE! My heart is getting so full! 💖";
-  } else if (n < 900) {
-    hint.textContent =
-      "600%?! I think I'm the luckiest person ever! 🥰";
-  } else if (n < 1000) {
-    hint.textContent =
-      "Almost there, my love! Just a little further! 🎀";
-  } else {
-    hint.textContent =
-      "1000% LOVE!! You have all my heart! ❤️";
-
-    if (!unlocked) {
-      unlocked = true;
-
-      setTimeout(() => {
-        burst(75);
-        document.getElementById('unlockModal')
-          .classList.remove('hidden');
-      }, 350);
-    }
+    burst(12);
   }
 });
 
+squeezeBtn.addEventListener('click', () => {
+  if (balloonPopped || unlocked) return;
 
+  squeezeAttempts++;
+
+  heartBalloon.classList.remove('squeeze', 'shake');
+  void heartBalloon.offsetWidth;
+  heartBalloon.classList.add('squeeze');
+
+  heartBalloon.style.fontSize =
+    (100 * (1 + squeezeAttempts * 0.075)) + 'px';
+
+  squeezeDots.forEach((dot, index) => {
+    dot.classList.toggle('filled', index < squeezeAttempts);
+  });
+
+  if (squeezeAttempts === 1) {
+    squeezeCount.textContent =
+      "A little squeeze! Again, my love! 💕";
+    squeezeBtn.textContent = "Squeeze again! 🎈";
+
+  } else if (squeezeAttempts === 2) {
+    squeezeCount.textContent =
+      "It's getting bigger! Keep squeezing! 💗";
+    squeezeBtn.textContent = "Harder! 💪";
+
+  } else if (squeezeAttempts === 3) {
+    squeezeCount.textContent =
+      "Whoa! It's getting HUGE! 🥰";
+    squeezeBtn.textContent = "One more big squeeze!";
+
+  } else if (squeezeAttempts === 4) {
+    squeezeCount.textContent =
+      "OH NO... IT'S ABOUT TO POP! 😳";
+    hint.textContent =
+      "Quick, one final squeeze, birthday girl!";
+    heartBalloon.classList.remove('squeeze');
+    void heartBalloon.offsetWidth;
+    heartBalloon.classList.add('shake');
+    squeezeBtn.textContent = "FINAL SQUEEZE!! 💥";
+  }
+
+  if (squeezeAttempts >= REQUIRED_SQUEEZES) {
+    balloonPopped = true;
+    squeezeBtn.disabled = true;
+    squeezeBtn.textContent = "POP!! 💥";
+
+    heartBalloon.classList.remove('squeeze', 'shake');
+    void heartBalloon.offsetWidth;
+    heartBalloon.classList.add('pop');
+
+    document.body.classList.add('burst-screen');
+
+    setTimeout(() => {
+      document.body.classList.remove('burst-screen');
+    }, 500);
+
+    burst(75);
+
+    setTimeout(() => {
+      percent.textContent = '1000%';
+      document.getElementById('rangeMin').textContent = '100%';
+      document.getElementById('rangeMax').textContent = '1000%';
+
+      hint.textContent =
+        "POP!! Your love broke the meter! 1000% LOVE! ❤️";
+
+      squeezeCount.textContent =
+        "1000% LOVE UNLOCKED!! You did it, my love! 💖";
+
+      unlocked = true;
+
+      setTimeout(() => {
+        document.getElementById('unlockModal')
+          .classList.remove('hidden');
+      }, 450);
+
+    }, 550);
+  }
+});
+  
 /* =========================================
    OPEN THE GIFTS PAGE
    ========================================= */
