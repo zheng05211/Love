@@ -1344,66 +1344,68 @@ if (birthdayRange) {
   });
 }
 
-  
-function getBirthdayAudio() {
-if (!birthdayAudio) {
-const AudioContextClass =
-window.AudioContext || window.webkitAudioContext;
+async function getBirthdayAudio() {
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
 
-if (!AudioContextClass) return null;
+  if (!AudioContextClass) {
+    console.error('AudioContext is not supported by this browser.');
+    return null;
+  }
 
-birthdayAudio = new AudioContextClass();
+  if (!birthdayAudio) {
+    birthdayAudio = new AudioContextClass();
+  }
 
+  if (birthdayAudio.state !== 'running') {
+    await birthdayAudio.resume();
+  }
+
+  return birthdayAudio;
 }
 
-if (birthdayAudio.state === 'suspended') {
-birthdayAudio.resume();
-}
-
-return birthdayAudio;
-}
 
 /* Soft, piano-like notes made in the browser */
-function playBirthdayNote(frequency, startTime, duration, volume) {
-const ctx = getBirthdayAudio();
-if (!ctx) return;
 
-const now = Math.max(ctx.currentTime, startTime);
-const gain = ctx.createGain();
-const fundamental = ctx.createOscillator();
-const overtone = ctx.createOscillator();
-const overtoneGain = ctx.createGain();
+async function playBirthdayNote(frequency, startTime, duration, volume) {
+  const ctx = await getBirthdayAudio();
+  if (!ctx || ctx.state !== 'running') return;
 
-fundamental.type = 'triangle';
-fundamental.frequency.setValueAtTime(frequency, now);
+  const now = Math.max(ctx.currentTime, startTime);
+  const gain = ctx.createGain();
+  const fundamental = ctx.createOscillator();
+  const overtone = ctx.createOscillator();
+  const overtoneGain = ctx.createGain();
 
-overtone.type = 'sine';
-overtone.frequency.setValueAtTime(frequency * 2, now);
+  fundamental.type = 'triangle';
+  fundamental.frequency.setValueAtTime(frequency, now);
 
-gain.gain.setValueAtTime(0.001, now);
-gain.gain.exponentialRampToValueAtTime(
-Math.max(volume, 0.002), now + 0.025
-);
-gain.gain.exponentialRampToValueAtTime(
-0.001, now + duration
-);
+  overtone.type = 'sine';
+  overtone.frequency.setValueAtTime(frequency * 2, now);
 
-overtoneGain.gain.setValueAtTime(volume * 0.18, now);
-overtoneGain.gain.exponentialRampToValueAtTime(
-0.001, now + duration * 0.65
-);
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.exponentialRampToValueAtTime(
+    Math.max(volume, 0.002), now + 0.025
+  );
+  gain.gain.exponentialRampToValueAtTime(
+    0.001, now + duration
+  );
 
-fundamental.connect(gain);
-gain.connect(ctx.destination);
-overtone.connect(overtoneGain);
-overtoneGain.connect(ctx.destination);
+  overtoneGain.gain.setValueAtTime(volume * 0.18, now);
+  overtoneGain.gain.exponentialRampToValueAtTime(
+    0.001, now + duration * 0.65
+  );
 
-fundamental.start(now);
-overtone.start(now);
-fundamental.stop(now + duration + 0.03);
-overtone.stop(now + duration + 0.03);
+  fundamental.connect(gain);
+  gain.connect(ctx.destination);
+  overtone.connect(overtoneGain);
+  overtoneGain.connect(ctx.destination);
+
+  fundamental.start(now);
+  overtone.start(now);
+  fundamental.stop(now + duration + 0.03);
+  overtone.stop(now + duration + 0.03);
 }
-
 
 /* Start the birthday experience when tapped */
 beginBirthday.addEventListener('click', async () => {
@@ -1434,8 +1436,11 @@ beginBirthday.addEventListener('click', async () => {
 function birthdaySound(type) {
 if (!birthdayStarted) return;
 
-const ctx = getBirthdayAudio();
-if (!ctx) return;
+getBirthdayAudio().then(ctx => {
+  if (!ctx || ctx.state !== 'running') return;
+
+  // 原本的音效播放逻辑
+});
 
 const now = ctx.currentTime + 0.01;
 
