@@ -594,132 +594,49 @@ input[type="range"] {
       Take your time, birthday girl. This is all for you. 🌷
     </p>
   </header>
+  
+  <!-- LOVE METER -->
 
+  <section class="card" id="loveCard">
+    <div class="kicker">Level 01 · A little test of love</div>
 
-/* =========================================
-   LOVE METER + HEART BALLOON CHALLENGE
-   ========================================= */
+    <h2>How much do you love me? 💗</h2>
 
-const range = document.getElementById('loveRange');
-const percent = document.getElementById('percent');
-const hint = document.getElementById('hint');
-const giftCard = document.getElementById('giftCard');
-const contentCard = document.getElementById('contentCard');
-const loveCard = document.getElementById('loveCard');
+    <p>Slide it all the way, birthday girl! Let's see how much love you have for me. ♡</p>
 
-const balloonStage = document.getElementById('balloonStage');
-const heartBalloon = document.getElementById('heartBalloon');
-const squeezeBtn = document.getElementById('squeezeBtn');
-const squeezeCount = document.getElementById('squeezeCount');
-const squeezeDots = document.querySelectorAll('.squeeze-dot');
+    <div class="meter-row">
+      <span>Our love meter</span>
+      <span class="percent" id="percent">0%</span>
+    </div>
 
-let extended = false;
-let unlocked = false;
-let squeezeAttempts = 0;
-const REQUIRED_SQUEEZES = 5;
-let balloonPopped = false;
+    <input type="range" id="loveRange" min="0" max="100" value="0" step="1">
 
-range.addEventListener('input', () => {
-  const n = Number(range.value);
+    <div class="range-labels">
+      <span id="rangeMin">0%</span>
+      <span id="rangeMax">100%</span>
+    </div>
 
-  // First stage: reach 100%.
-  if (n >= 100 && !extended) {
-    extended = true;
+    <p class="hint" id="hint" aria-live="polite">
+      Psst... keep going, my love. There's a little surprise waiting! ✨
+    </p>
 
-    // Keep the slider at 100%; no instant jump to 1000%.
-    range.max = 100;
-    range.value = 100;
-    range.disabled = true;
+    <div id="balloonStage" class="balloon-stage hidden">
+      <div id="heartBalloon" class="heart-balloon">💗</div>
+      <p class="squeeze-count" id="squeezeCount">Your love is building up! 💕</p>
 
-    percent.textContent = '100%';
-    document.getElementById('rangeMin').textContent = '0%';
-    document.getElementById('rangeMax').textContent = '100%';
+      <div class="squeeze-progress">
+        <span class="squeeze-dot"></span>
+        <span class="squeeze-dot"></span>
+        <span class="squeeze-dot"></span>
+        <span class="squeeze-dot"></span>
+        <span class="squeeze-dot"></span>
+      </div>
 
-    hint.textContent =
-      "100% already?! Hmm... something is stopping you! 🎈";
-
-    balloonStage.classList.remove('hidden');
-    squeezeCount.textContent =
-      "Maybe your love needs a little more squeezing! 💗";
-
-    burst(12);
-    return;
-  }
-
-  percent.textContent = n + '%';
-});
-
-squeezeBtn.addEventListener('click', () => {
-  if (balloonPopped || unlocked) return;
-
-  squeezeAttempts++;
-
-  // Replay the squeeze animation.
-  heartBalloon.classList.remove('squeeze', 'shake');
-  void heartBalloon.offsetWidth;
-  heartBalloon.classList.add('squeeze');
-
-  // Make the balloon appear fuller with every squeeze.
-  const scale = 1 + squeezeAttempts * 0.075;
-  heartBalloon.style.fontSize = (100 * scale) + 'px';
-
-  squeezeDots.forEach((dot, index) => {
-    dot.classList.toggle('filled', index < squeezeAttempts);
-  });
-
-  if (squeezeAttempts === 1) {
-    squeezeCount.textContent = "A little squeeze! Again, my love! 💕";
-    hint.textContent = "Something is happening... keep going! ✨";
-    squeezeBtn.textContent = "Squeeze again! 🎈";
-  } else if (squeezeAttempts === 2) {
-    squeezeCount.textContent = "It's getting bigger! Keep squeezing! 💗";
-    squeezeBtn.textContent = "Harder! 💪";
-  } else if (squeezeAttempts === 3) {
-    squeezeCount.textContent = "Whoa! It's getting HUGE! 🥰";
-    squeezeBtn.textContent = "One more big squeeze!";
-  } else if (squeezeAttempts === 4) {
-    squeezeCount.textContent = "OH NO... IT'S ABOUT TO POP! 😳";
-    hint.textContent = "Quick, one final squeeze, birthday girl!";
-    heartBalloon.classList.add('shake');
-    squeezeBtn.textContent = "FINAL SQUEEZE!! 💥";
-  }
-
-  if (squeezeAttempts >= REQUIRED_SQUEEZES) {
-    balloonPopped = true;
-    squeezeBtn.disabled = true;
-    squeezeBtn.textContent = "POP!! 💥";
-
-    heartBalloon.classList.remove('squeeze', 'shake');
-    void heartBalloon.offsetWidth;
-    heartBalloon.classList.add('pop');
-
-    document.body.classList.add('burst-screen');
-    setTimeout(() => {
-      document.body.classList.remove('burst-screen');
-    }, 500);
-
-    burst(75);
-
-    setTimeout(() => {
-      percent.textContent = '1000%';
-      document.getElementById('rangeMin').textContent = '100%';
-      document.getElementById('rangeMax').textContent = '1000%';
-
-      hint.textContent =
-        "POP!! Your love broke the meter! 1000% LOVE! ❤️";
-
-      squeezeCount.textContent =
-        "1000% LOVE UNLOCKED!! You did it, my love! 💖";
-
-      unlocked = true;
-
-      setTimeout(() => {
-        document.getElementById('unlockModal')
-          .classList.remove('hidden');
-      }, 450);
-    }, 550);
-  }
-});
+      <button class="btn squeeze-button" id="squeezeBtn" type="button">
+        Squeeze harder! 🎈
+      </button>
+    </div>
+  </section>
 
   <!-- UNLOCKED GIFTS -->
 
@@ -1008,12 +925,6 @@ At last, I hope you have a really nice day.
 Wish you happy birthday, my love. I love you, like first time and always. 💗
 
 (pss, I tried to write this letter with my broken english to show you it is not from ChatGPT, and maybe english is more romantic? haha)`;
-
-
-/* =========================================
-   LOVE METER
-   First 0-100%, then reveal 1000%.
-   ========================================= */
 
 const range = document.getElementById('loveRange');
 const percent = document.getElementById('percent');
