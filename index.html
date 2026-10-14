@@ -1032,6 +1032,9 @@ Wish you happy birthday, my love. I love you, like first time and always. 💗
 const range = document.getElementById('loveRange');
 const percent = document.getElementById('percent');
 const hint = document.getElementById('hint');
+const loveCard = document.getElementById('loveCard');
+const giftCard = document.getElementById('giftCard');
+const contentCard = document.getElementById('contentCard');
 
 const balloonStage = document.getElementById('balloonStage');
 const heartBalloon = document.getElementById('heartBalloon');
@@ -1443,78 +1446,46 @@ playBirthdayNote(783.99, now + 0.18, 0.6, 0.03);
 }
 }
 
-/* Start only after she taps the welcome button */
-beginBirthday.addEventListener('click', () => {
-if (birthdayStarted) return;
 
-birthdayStarted = true;
-birthdayMusicOn = true;
-
-getBirthdayAudio();
-
-musicWelcome.classList.add('leaving');
-musicToggle.hidden = false;
-musicToggle.textContent = '♫ Music: On';
-
-playBirthdayStepSafe();
-});
-
-function playBirthdayStepSafe() {
-if (birthdayMusicOn) playMelodyStep();
-}
-
-/* Music on/off control */
-musicToggle.addEventListener('click', () => {
-birthdayMusicOn = !birthdayMusicOn;
-
-if (birthdayMusicOn) {
-musicToggle.textContent = '♫ Music: On';
-clearTimeout(melodyTimer);
-playMelodyStep();
-birthdaySound('tap');
-} else {
-musicToggle.textContent = '♫ Music: Off';
-clearTimeout(melodyTimer);
-}
-});
-
-/* Soft sound on buttons throughout the website */
+/* Sound effects for all buttons */
 document.addEventListener('click', (event) => {
-const target = event.target;
-if (!(target instanceof Element)) return;
+  const target = event.target;
+  if (!(target instanceof Element)) return;
 
-const button = target.closest('button');
+  const button = target.closest('button');
+  if (!button || button.disabled) return;
 
-if (!button || button.disabled) return;
-if (button.id === 'beginBirthday') return;
-if (button.id === 'musicToggle') return;
+  if (
+    button.id === 'beginBirthday' ||
+    button.id === 'musicToggle'
+  ) return;
 
-if (button.id === 'squeezeBtn') {
-const squeezeCount = document.getElementById('squeezeCount');
-if (squeezeCount &&
-squeezeCount.textContent.includes('1000% LOVE UNLOCKED')) {
-birthdaySound('pop');
-} else {
-birthdaySound('tap');
-}
-} else {
-birthdaySound('tap');
-}
+  if (button.id === 'squeezeBtn') {
+    birthdaySound(
+      squeezeAttempts >= REQUIRED_SQUEEZES
+        ? 'pop'
+        : 'tap'
+    );
+    return;
+  }
+
+  if (button.matches('[data-gift]')) {
+    if (button.dataset.gift === 'letter') {
+      birthdaySound('letter');
+    } else {
+      birthdaySound('gift');
+    }
+    return;
+  }
+
+  if (button.id === 'showGiftsBtn') {
+    birthdaySound('success');
+    return;
+  }
+
+  birthdaySound('tap');
 });
 
-/* A gentle tick every few percentage points, not on every tiny movement */
-const birthdayRange = document.getElementById('loveRange');
-
-if (birthdayRange) {
-birthdayRange.addEventListener('input', () => {
-const value = Number(birthdayRange.value);
-
-if (Math.abs(value - lastSliderSound) >= 5) {
-  lastSliderSound = value;
-  birthdaySound(value >= 100 ? 'success' : 'tap');
-}
-
-});
 }
 </script>
 
