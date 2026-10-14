@@ -1321,6 +1321,22 @@ let melodyTimer = null;
 let melodyStep = 0;
 let lastSliderSound = -10;
 
+
+/* Gentle sound when the Love Meter moves */
+const birthdayRange = document.getElementById('loveRange');
+
+if (birthdayRange) {
+  birthdayRange.addEventListener('input', () => {
+    const value = Number(birthdayRange.value);
+
+    if (Math.abs(value - lastSliderSound) >= 5) {
+      lastSliderSound = value;
+      birthdaySound(value >= 100 ? 'success' : 'tap');
+    }
+  });
+}
+
+  
 function getBirthdayAudio() {
 if (!birthdayAudio) {
 const AudioContextClass =
@@ -1486,7 +1502,6 @@ document.addEventListener('click', (event) => {
   birthdaySound('tap');
 });
 
-}
 </script>
 
 </body>
