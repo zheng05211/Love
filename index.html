@@ -1429,6 +1429,23 @@ melodyStep++;
 melodyTimer = setTimeout(playMelodyStep, 1900);
 }
 
+/* Start the birthday experience when tapped */
+beginBirthday.addEventListener('click', () => {
+  if (birthdayStarted) return;
+
+  birthdayStarted = true;
+  birthdayMusicOn = true;
+
+  getBirthdayAudio();
+
+  musicWelcome.classList.add('leaving');
+
+  musicToggle.hidden = false;
+  musicToggle.textContent = '♫ Music: On';
+
+  playMelodyStep();
+});
+
 /* Short sound effects */
 function birthdaySound(type) {
 if (!birthdayStarted) return;
