@@ -1314,6 +1314,12 @@ function burst(count) {
 const beginBirthday = document.getElementById('beginBirthday');
 const musicToggle = document.getElementById('musicToggle');
 
+const birthdayMusic = document.getElementById('birthdayMusic');
+
+// Background music volume: 0.0 to 1.0
+birthdayMusic.volume = 0.15;
+
+  
 let birthdayAudio = null;
 let birthdayMusicOn = true;
 let birthdayStarted = false;
@@ -1396,27 +1402,6 @@ fundamental.stop(now + duration + 0.03);
 overtone.stop(now + duration + 0.03);
 }
 
-/* A gentle original melody, played in a loop */
-const birthdayMelody = [
-[523.25, 659.25, 783.99],
-[493.88, 587.33, 739.99],
-[440.00, 523.25, 659.25],
-[392.00, 493.88, 587.33],
-[440.00, 523.25, 659.25],
-[523.25, 659.25, 783.99],
-[587.33, 698.46, 880.00],
-[523.25, 659.25, 783.99]
-];
-
-function playMelodyStep() {
-if (!birthdayStarted || !birthdayMusicOn) return;
-
-const ctx = getBirthdayAudio();
-if (!ctx) return;
-
-const chord = birthdayMelody[melodyStep % birthdayMelody.length];
-const now = ctx.currentTime + 0.05;
-
 // A soft arpeggio instead of a loud chord
 playBirthdayNote(chord[0], now, 1.5, 0.045);
 playBirthdayNote(chord[1], now + 0.32, 1.4, 0.035);
@@ -1429,22 +1414,27 @@ melodyStep++;
 melodyTimer = setTimeout(playMelodyStep, 1900);
 }
 
+
 /* Start the birthday experience when tapped */
-beginBirthday.addEventListener('click', () => {
+beginBirthday.addEventListener('click', async () => {
   if (birthdayStarted) return;
 
   birthdayStarted = true;
   birthdayMusicOn = true;
-
-  getBirthdayAudio();
 
   musicWelcome.classList.add('leaving');
 
   musicToggle.hidden = false;
   musicToggle.textContent = '♫ Music: On';
 
-  playMelodyStep();
+  try {
+    birthdayMusic.currentTime = 0;
+    await birthdayMusic.play();
+  } catch (error) {
+    console.log('Music playback failed:', error);
+  }
 });
+
 
 /* Short sound effects */
 function birthdaySound(type) {
@@ -1519,7 +1509,28 @@ document.addEventListener('click', (event) => {
   birthdaySound('tap');
 });
 
+musicToggle.addEventListener('click', async () => {
+  birthdayMusicOn = !birthdayMusicOn;
+
+  if (birthdayMusicOn) {
+    try {
+      await birthdayMusic.play();
+      musicToggle.textContent = '♫ Music: On';
+    } catch (error) {
+      birthdayMusicOn = false;
+      musicToggle.textContent = '♫ Music: Off';
+    }
+  } else {
+    birthdayMusic.pause();
+    musicToggle.textContent = '♫ Music: Off';
+  }
+});
+
 </script>
+
+<audio id="birthdayMusic" loop preload="auto">
+  <source src="birthday-music.mp3" type="audio/mpeg">
+</audio>
 
 </body>
 </html>
