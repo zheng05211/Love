@@ -948,7 +948,7 @@ let balloonPopped = false;
 
 range.addEventListener('input', () => {
   const n = Number(range.value);
-
+percent.textContent = n + '%';
   if (n >= 100 && !extended) {
     extended = true;
     range.disabled = true;
