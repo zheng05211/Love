@@ -1407,19 +1407,24 @@ overtone.stop(now + duration + 0.03);
 
 /* Start the birthday experience when tapped */
 beginBirthday.addEventListener('click', async () => {
-  alert('Button works! 💗');
+  if (birthdayStarted) return;
+
+  birthdayStarted = true;
+  birthdayMusicOn = true;
 
   musicWelcome.classList.add('leaving');
   musicToggle.hidden = false;
+  musicToggle.textContent = '♫ Music: On';
+
+  // Unlock browser audio for the interaction sound effects.
+  getBirthdayAudio();
 
   try {
     birthdayMusic.currentTime = 0;
     await birthdayMusic.play();
-    musicToggle.textContent = '♫ Music: On';
   } catch (error) {
     console.error('Music playback failed:', error);
     musicToggle.textContent = '♫ Music: Off';
-    alert('The button works, but music could not play. Check Console.');
   }
 });
 
