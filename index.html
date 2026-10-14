@@ -1,247 +1,1043 @@
-html = r'''<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff0f6">
 <title>For My Favourite Girl ♡</title>
+
 <style>
-:root{--pink:#ff79ad;--hot:#e94d91;--pale:#fff0f6;--ink:#713852;--muted:#a96d88}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;color:var(--ink);font-family:"Trebuchet MS",system-ui,-apple-system,sans-serif;background:radial-gradient(circle at 12% 8%,#ffe0ed 0,transparent 29%),radial-gradient(circle at 90% 18%,#ffebd7 0,transparent 24%),linear-gradient(160deg,#fffafd,#fff0f6 55%,#fff9f1);overflow-x:hidden}
-button,input,textarea{font:inherit}button{cursor:pointer}
-.wrap{width:min(760px,100%);margin:auto;padding:20px 16px 48px}
-.topline{text-align:center;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:#c65a88;margin:8px 0 12px}
-.hero{text-align:center;padding:20px 10px 18px}
-.bigheart{font-size:3rem;display:inline-block;animation:heartbeat 1.35s infinite}
-@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
-h1{font-family:Georgia,serif;font-size:clamp(2.25rem,8vw,3.7rem);line-height:1.05;margin:10px 0;color:#b83d75}
-.subtitle{max-width:490px;margin:0 auto;color:#9c6380;line-height:1.7}
-.card{background:#ffffffdf;border:1px solid #ffd3e4;border-radius:28px;padding:clamp(19px,5vw,34px);box-shadow:0 14px 45px #d95d8c16;margin:16px 0}
-.kicker{text-transform:uppercase;letter-spacing:.13em;font-size:.7rem;color:#d05d91;font-weight:800}
-h2{font-family:Georgia,serif;color:#b83d75;font-size:1.65rem;margin:8px 0 12px}
-p{line-height:1.7}
-.meter-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:21px 0 10px}
-.percent{font-size:clamp(1.7rem,6vw,2.3rem);font-weight:900;color:#e34f91;font-variant-numeric:tabular-nums}
-input[type=range]{width:100%;accent-color:#f05a9b;cursor:grab;height:28px}
-.range-labels{display:flex;justify-content:space-between;font-size:.8rem;color:#b37b96;gap:10px}
-.hint{font-size:.92rem;color:#a66b86;min-height:28px;margin:12px 0}
-.btn{border:0;border-radius:999px;background:linear-gradient(135deg,#ff8ab7,#e94e91);color:white;padding:13px 22px;font-weight:800;box-shadow:0 8px 18px #e94e9130;transition:transform .18s}
-.btn:active{transform:scale(.97)}
-.btn.secondary{background:#fff0f6;color:#bc477a;box-shadow:none;border:1px solid #ffc8df}
-.center{text-align:center}
-.hidden{display:none!important}
-.gifts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
-.gift{background:#fff7fb;border:1px solid #ffd1e4;border-radius:22px;padding:14px 10px;text-align:center;color:var(--ink);min-height:172px;transition:transform .2s,box-shadow .2s}
-.gift:hover{transform:translateY(-4px);box-shadow:0 10px 22px #e94e9120}
-.gift strong{display:block;font-size:.95rem;margin-top:9px}
-.gift small{display:block;margin-top:5px;color:#b57b97;line-height:1.4}
-.gift-art{height:90px;display:flex;align-items:center;justify-content:center}
-.flower-svg{width:126px;max-width:100%;height:90px;overflow:visible}
-.photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
-.photo-slot{min-height:150px;border:2px dashed #f3a9c8;border-radius:18px;background:#fff7fb;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.photo-slot img{width:100%;height:100%;min-height:150px;object-fit:cover;position:absolute;inset:0}
-.photo-placeholder{padding:16px;text-align:center;color:#bf7898;line-height:1.5}
-.photo-placeholder span{display:block;font-size:2rem;margin-bottom:7px}
-.photo-note{font-size:.82rem;color:#a96d88;background:#fff5fa;border-radius:14px;padding:12px}
-.letter{background:linear-gradient(135deg,#fffaf1,#fff0f6);border:1px dashed #f2a3c5;border-radius:20px;padding:22px;white-space:pre-wrap;line-height:1.9;font-family:Georgia,serif}
-.signature{font-family:Georgia,serif;font-style:italic;color:#d24d8a;font-size:1.2rem;text-align:right;margin-top:18px}
-.modal-backdrop{position:fixed;inset:0;background:#78334f50;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20;backdrop-filter:blur(5px)}
-.modal{width:min(430px,100%);background:#fffafd;border:2px solid #ffd2e5;border-radius:30px;padding:28px 22px;text-align:center;box-shadow:0 20px 70px #6c244644;animation:pop .55s cubic-bezier(.2,1.5,.5,1)}
-@keyframes pop{0%{transform:scale(.35) rotate(-8deg);opacity:0}75%{transform:scale(1.05) rotate(2deg);opacity:1}100%{transform:scale(1) rotate(0)}}
-.modal-emoji{font-size:3.2rem;animation:bounce .7s ease-in-out infinite alternate}
-@keyframes bounce{to{transform:translateY(-8px) rotate(5deg)}}
-.modal h2{margin-top:10px}
-.particle{position:fixed;top:-35px;pointer-events:none;z-index:30;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(110vh) rotate(600deg);opacity:.1}}
-.footer{text-align:center;font-size:.8rem;color:#c38ba5;padding:18px}
-@media(max-width:480px){.gifts{grid-template-columns:1fr}.gift{min-height:0;display:flex;align-items:center;gap:13px;text-align:left;padding:12px 15px}.gift-art{width:112px;flex-shrink:0}.gift strong{margin-top:0}.gift small{margin-top:4px}.photo-grid{grid-template-columns:1fr 1fr}.photo-slot{min-height:130px}.photo-slot img{min-height:130px}}
+:root {
+  --pink: #ff79ad;
+  --hot: #e94d91;
+  --pale: #fff0f6;
+  --ink: #713852;
+  --muted: #a96d88;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Trebuchet MS", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 12% 8%, #ffe0ed 0, transparent 29%),
+    radial-gradient(circle at 90% 18%, #ffebd7 0, transparent 24%),
+    linear-gradient(160deg, #fffafd, #fff0f6 55%, #fff9f1);
+  overflow-x: hidden;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+.wrap {
+  width: min(760px, 100%);
+  margin: auto;
+  padding: 20px 16px 48px;
+}
+
+.topline {
+  text-align: center;
+  font-size: .76rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #c65a88;
+  margin: 8px 0 12px;
+}
+
+.hero { text-align: center; padding: 20px 10px 18px; }
+
+.bigheart {
+  font-size: 3rem;
+  display: inline-block;
+  animation: heartbeat 1.35s infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.13); }
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(2.25rem, 8vw, 3.7rem);
+  line-height: 1.05;
+  margin: 10px 0;
+  color: #b83d75;
+}
+
+.subtitle {
+  max-width: 490px;
+  margin: 0 auto;
+  color: #9c6380;
+  line-height: 1.7;
+}
+
+.card {
+  background: #ffffffdf;
+  border: 1px solid #ffd3e4;
+  border-radius: 28px;
+  padding: clamp(19px, 5vw, 34px);
+  box-shadow: 0 14px 45px #d95d8c16;
+  margin: 16px 0;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  font-size: .7rem;
+  color: #d05d91;
+  font-weight: 800;
+}
+
+h2 {
+  font-family: Georgia, serif;
+  color: #b83d75;
+  font-size: 1.65rem;
+  margin: 8px 0 12px;
+}
+
+p { line-height: 1.7; }
+
+.meter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 21px 0 10px;
+}
+
+.percent {
+  font-size: clamp(1.7rem, 6vw, 2.3rem);
+  font-weight: 900;
+  color: #e34f91;
+  font-variant-numeric: tabular-nums;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #f05a9b;
+  cursor: grab;
+  height: 28px;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: .8rem;
+  color: #b37b96;
+  gap: 10px;
+}
+
+.hint {
+  font-size: .92rem;
+  color: #a66b86;
+  min-height: 48px;
+  margin: 12px 0;
+}
+
+.btn {
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff8ab7, #e94e91);
+  color: white;
+  padding: 13px 22px;
+  font-weight: 800;
+  box-shadow: 0 8px 18px #e94e9130;
+  transition: transform .18s;
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn.secondary {
+  background: #fff0f6;
+  color: #bc477a;
+  box-shadow: none;
+  border: 1px solid #ffc8df;
+}
+
+.center { text-align: center; }
+.hidden { display: none !important; }
+
+/* Three mystery gifts */
+
+.gifts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.gift {
+  background: #fff7fb;
+  border: 1px solid #ffd1e4;
+  border-radius: 22px;
+  padding: 16px 10px;
+  text-align: center;
+  color: var(--ink);
+  min-width: 0;
+  min-height: 200px;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.gift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px #e94e9120;
+}
+
+.gift:focus-visible {
+  outline: 3px solid #e94d91;
+  outline-offset: 3px;
+}
+
+.gift-art {
+  height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift strong {
+  display: block;
+  font-size: .95rem;
+  margin-top: 8px;
+}
+
+.gift small {
+  display: block;
+  margin-top: 6px;
+  color: #b57b97;
+  line-height: 1.5;
+}
+
+.gift-box {
+  position: relative;
+  width: 76px;
+  height: 65px;
+  border-radius: 7px;
+  background: var(--box-color, #ff9fc6);
+  box-shadow: 0 7px 0 #0000000d, 0 12px 18px #e94e9118;
+  transition: transform .3s;
+}
+
+.gift-box::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 100%;
+  height: 12px;
+  background: var(--ribbon-color, #fff0f6);
+}
+
+.gift-box::after {
+  content: "";
+  position: absolute;
+  left: 31px;
+  top: 0;
+  width: 14px;
+  height: 100%;
+  background: var(--ribbon-color, #fff0f6);
+}
+
+.gift-lid {
+  position: absolute;
+  z-index: 2;
+  left: -5px;
+  top: -9px;
+  width: 86px;
+  height: 19px;
+  border-radius: 5px;
+  background: var(--lid-color, #ff79ad);
+  transition: transform .35s;
+}
+
+.gift-bow {
+  position: absolute;
+  z-index: 3;
+  top: -24px;
+  left: 25px;
+  width: 26px;
+  height: 20px;
+}
+
+.gift-bow::before,
+.gift-bow::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 12px;
+  border: 4px solid var(--ribbon-color, #fff0f6);
+  border-radius: 100% 100% 30% 100%;
+}
+
+.gift-bow::before {
+  left: -3px;
+  transform: rotate(25deg);
+}
+
+.gift-bow::after {
+  right: -3px;
+  transform: scaleX(-1) rotate(25deg);
+}
+
+.gift.opening .gift-lid {
+  transform: translateY(-22px) rotate(-18deg);
+}
+
+.gift.opening .gift-box {
+  transform: scale(1.12);
+}
+
+/* Flower illustrations */
+
+.flower-svg {
+  width: 126px;
+  max-width: 100%;
+  height: 90px;
+  overflow: visible;
+}
+
+/* Photos */
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.photo-slot {
+  min-height: 170px;
+  border: 2px dashed #f3a9c8;
+  border-radius: 18px;
+  background: #fff7fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  min-height: 170px;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.photo-placeholder {
+  padding: 16px;
+  text-align: center;
+  color: #bf7898;
+  line-height: 1.5;
+}
+
+.photo-placeholder span {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 7px;
+}
+
+.photo-note {
+  font-size: .82rem;
+  color: #a96d88;
+  background: #fff5fa;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+/* Letter */
+
+.letter {
+  background: linear-gradient(135deg, #fffaf1, #fff0f6);
+  border: 1px dashed #f2a3c5;
+  border-radius: 20px;
+  padding: 22px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.9;
+  font-family: Georgia, serif;
+}
+
+.signature {
+  font-family: Georgia, serif;
+  font-style: italic;
+  color: #d24d8a;
+  font-size: 1.2rem;
+  text-align: right;
+  margin-top: 18px;
+}
+
+/* Unlock popup */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #78334f70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 20;
+  backdrop-filter: blur(5px);
+}
+
+.modal {
+  width: min(430px, 100%);
+  background: #fffafd;
+  border: 2px solid #ffd2e5;
+  border-radius: 30px;
+  padding: 28px 22px;
+  text-align: center;
+  box-shadow: 0 20px 70px #6c244644;
+  animation: pop .55s cubic-bezier(.2, 1.5, .5, 1);
+}
+
+@keyframes pop {
+  0% { transform: scale(.35) rotate(-8deg); opacity: 0; }
+  75% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.modal-emoji {
+  font-size: 3.2rem;
+  animation: bounce .7s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+  to { transform: translateY(-8px) rotate(5deg); }
+}
+
+.modal h2 { margin-top: 10px; }
+
+.particle {
+  position: fixed;
+  top: -35px;
+  pointer-events: none;
+  z-index: 30;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(600deg);
+    opacity: .1;
+  }
+}
+
+.footer {
+  text-align: center;
+  font-size: .8rem;
+  color: #c38ba5;
+  padding: 18px;
+}
+
+@media (max-width: 520px) {
+  .gifts { grid-template-columns: 1fr; }
+
+  .gift {
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    padding: 14px 18px;
+  }
+
+  .gift-art {
+    width: 100px;
+    height: 95px;
+    flex-shrink: 0;
+  }
+
+  .gift strong { margin-top: 0; }
+
+  .photo-grid { grid-template-columns: 1fr 1fr; }
+
+  .photo-slot { min-height: 130px; }
+
+  .photo-slot img { min-height: 130px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 </style>
 </head>
+
 <body>
 <main class="wrap">
-  <div class="topline">a tiny website, made with lots of love</div>
+
+  <div class="topline">A tiny website, made with lots of love</div>
+
   <header class="hero">
     <div class="bigheart">💗</div>
     <h1>Happy Birthday,<br>My Love</h1>
-    <p class="subtitle">I made a little surprise just for my favourite person. Take your time, birthday girl. This is all for you. 🌷</p>
+    <p class="subtitle">
+      I made a little surprise just for my favourite person.
+      Take your time, birthday girl. This is all for you. 🌷
+    </p>
   </header>
 
+  <!-- LOVE METER -->
+
   <section class="card" id="loveCard">
-    <div class="kicker">Level 01 · the love meter</div>
-    <h2>How much do you love me? 🥹</h2>
-    <p>Move the little heart and let your love grow all the way to 1000% 💞</p>
-    <div class="meter-row"><span>Our love meter</span><span class="percent" id="percent">0%</span></div>
-    <input id="loveRange" type="range" min="0" max="1000" step="10" value="0" aria-label="Love percentage">
-    <div class="range-labels"><span>just a little 🙈</span><span>INFINITE LOVE 💖</span></div>
-    <p class="hint" id="hint">Psst… keep going, my love. There's a surprise waiting! ✨</p>
+    <div class="kicker">Level 01 · The love meter</div>
+
+    <h2>How much do you love me? ❤️</h2>
+
+    <p>Move the little heart and show me how much you love me. 💗</p>
+
+    <div class="meter-row">
+      <span>Our love meter</span>
+      <span class="percent" id="percent">0%</span>
+    </div>
+
+    <input
+      id="loveRange"
+      type="range"
+      min="0"
+      max="100"
+      step="1"
+      value="0"
+      aria-label="Love percentage"
+    >
+
+    <div class="range-labels">
+      <span id="rangeMin">0%</span>
+      <span id="rangeMax">100%</span>
+    </div>
+
+    <p class="hint" id="hint" aria-live="polite">
+      Psst... keep going, my love. There's a little surprise waiting! ✨
+    </p>
   </section>
+
+  <!-- UNLOCKED GIFTS -->
 
   <section class="card hidden" id="giftCard">
-    <div class="kicker">Level 02 · unlocked with love</div>
-    <h2>Choose your little surprise! 🎀</h2>
-    <p>You filled the love meter with 1000% love! Pick whichever gift your heart wants first. 💗</p>
+    <div class="kicker">Level 02 · Unlocked with love</div>
+
+    <h2>You found my little surprises! 🎀</h2>
+
+    <p>
+      1000% love! You deserve something special.
+      Choose a mystery gift to open. 💗
+    </p>
+
     <div class="gifts">
-      <button class="gift" data-gift="flowers">
+
+      <!-- GIFT 1 -->
+
+      <button class="gift" data-gift="flowers" type="button">
         <div class="gift-art">
-          <svg class="flower-svg" viewBox="0 0 130 92" role="img" aria-label="Cute colourful illustrated bouquet">
-            <path d="M64 49 Q58 66 45 84 M65 49 Q70 68 83 84 M64 52 L64 85 M57 63 Q38 55 38 45 Q54 48 61 62 M72 65 Q90 53 94 45 Q76 48 68 64" fill="none" stroke="#65ad77" stroke-width="4" stroke-linecap="round"/>
-            <path d="M43 73 L86 73 L76 89 L53 89 Z" fill="#ff9fc6" stroke="#ee7ba9" stroke-width="1.5"/>
-            <path d="M64 76 Q54 69 55 77 Q57 83 64 79 Q71 84 74 77 Q74 70 64 76" fill="#e94d91"/>
-            <g transform="translate(37 29)"><ellipse cy="-9" rx="6" ry="10" fill="#ff8cae"/><ellipse cy="9" rx="6" ry="10" fill="#ff8cae"/><ellipse cx="-9" rx="10" ry="6" fill="#ff8cae"/><ellipse cx="9" rx="10" ry="6" fill="#ff8cae"/><circle r="6" fill="#ffd85e"/></g>
-            <g transform="translate(65 20)"><ellipse cy="-9" rx="6" ry="10" fill="#b99af8"/><ellipse cy="9" rx="6" ry="10" fill="#b99af8"/><ellipse cx="-9" rx="10" ry="6" fill="#b99af8"/><ellipse cx="9" rx="10" ry="6" fill="#b99af8"/><circle r="6" fill="#ffdc6a"/></g>
-            <g transform="translate(91 32)"><ellipse cy="-9" rx="6" ry="10" fill="#ffb74d"/><ellipse cy="9" rx="6" ry="10" fill="#ffb74d"/><ellipse cx="-9" rx="10" ry="6" fill="#ffb74d"/><ellipse cx="9" rx="10" ry="6" fill="#ffb74d"/><circle r="6" fill="#fff0a5"/></g>
-            <g transform="translate(54 44) scale(.78)"><ellipse cy="-9" rx="6" ry="10" fill="#ff6fa7"/><ellipse cy="9" rx="6" ry="10" fill="#ff6fa7"/><ellipse cx="-9" rx="10" ry="6" fill="#ff6fa7"/><ellipse cx="9" rx="10" ry="6" fill="#ff6fa7"/><circle r="6" fill="#ffe276"/></g>
-            <g transform="translate(78 45) scale(.78)"><ellipse cy="-9" rx="6" ry="10" fill="#78cbe8"/><ellipse cy="9" rx="6" ry="10" fill="#78cbe8"/><ellipse cx="-9" rx="10" ry="6" fill="#78cbe8"/><ellipse cx="9" rx="10" ry="6" fill="#78cbe8"/><circle r="6" fill="#fff0a5"/></g>
-            <path d="M24 18 q-7 -10 -12 -2 q2 9 12 2 M108 13 q8 -10 12 -1 q-3 9 -12 1" fill="#ffabc9"/>
-          </svg>
+          <div class="gift-box"
+               style="--box-color:#ff9fc6;--lid-color:#ff79ad;--ribbon-color:#fff0f6">
+            <div class="gift-lid"></div>
+            <div class="gift-bow"></div>
+          </div>
         </div>
-        <span><strong>A colourful bouquet 🌼</strong><small>A bunch of happy little flowers, just for you</small></span>
+        <span>
+          <strong>Gift 1 🎀</strong>
+          <small>A little surprise just for you</small>
+        </span>
       </button>
-      <button class="gift" data-gift="memories">
-        <div class="gift-art"><svg width="104" height="90" viewBox="0 0 104 90" role="img" aria-label="Cute photo frames"><rect x="8" y="18" width="51" height="57" rx="5" fill="#fff" stroke="#f5a4c7" stroke-width="3" transform="rotate(-9 33 46)"/><rect x="44" y="11" width="51" height="58" rx="5" fill="#fff" stroke="#f5a4c7" stroke-width="3" transform="rotate(8 69 40)"/><rect x="17" y="28" width="35" height="36" rx="3" fill="#ffe0ec" transform="rotate(-9 33 46)"/><rect x="52" y="21" width="35" height="36" rx="3" fill="#ffebd2" transform="rotate(8 69 40)"/><circle cx="30" cy="39" r="5" fill="#ff91b8"/><path d="M18 58 L29 46 L37 54 L44 47 L51 61" fill="#a6d9b1"/><circle cx="68" cy="31" r="5" fill="#e8a7fa"/><path d="M53 52 L62 42 L70 49 L78 38 L86 55" fill="#9dd7eb"/><path d="M52 7 C43 -3 33 10 52 22 C71 10 61 -3 52 7" fill="#ec5b99"/></svg></div>
-        <span><strong>Our little world 📸</strong><small>Open our favourite memories together</small></span>
+
+      <!-- GIFT 2 -->
+
+      <button class="gift" data-gift="memories" type="button">
+        <div class="gift-art">
+          <div class="gift-box"
+               style="--box-color:#c9b5ff;--lid-color:#ad91f2;--ribbon-color:#fff7fc">
+            <div class="gift-lid"></div>
+            <div class="gift-bow"></div>
+          </div>
+        </div>
+        <span>
+          <strong>Gift 2 💝</strong>
+          <small>What's inside? Tap to find out</small>
+        </span>
       </button>
-      <button class="gift" data-gift="letter">
-        <div class="gift-art"><svg width="104" height="90" viewBox="0 0 104 90" role="img" aria-label="Cute love letter"><rect x="12" y="24" width="80" height="52" rx="8" fill="#ffd9e8" stroke="#f19abd" stroke-width="2"/><path d="M15 29 L52 57 L89 29" fill="none" stroke="#ee8ab0" stroke-width="3"/><path d="M15 71 L42 49 M89 71 L62 49" fill="none" stroke="#ee8ab0" stroke-width="3"/><path d="M52 15 C40 3 29 17 52 32 C75 17 64 3 52 15" fill="#e94d91"/><circle cx="80" cy="17" r="3" fill="#ffbd52"/><circle cx="23" cy="13" r="3" fill="#b99af8"/></svg></div>
-        <span><strong>A letter from me 💌</strong><small>A few words from my heart to yours</small></span>
+
+      <!-- GIFT 3 -->
+
+      <button class="gift" data-gift="letter" type="button">
+        <div class="gift-art">
+          <div class="gift-box"
+               style="--box-color:#ffd28f;--lid-color:#ffb75e;--ribbon-color:#fff8ed">
+            <div class="gift-lid"></div>
+            <div class="gift-bow"></div>
+          </div>
+        </div>
+        <span>
+          <strong>Gift 3 💌</strong>
+          <small>Something special awaits</small>
+        </span>
       </button>
+
     </div>
   </section>
+
+  <!-- GIFT CONTENT -->
 
   <section class="card hidden" id="contentCard">
-    <div class="kicker" id="contentKicker">A little surprise</div>
+    <div class="kicker" id="contentKicker">Your surprise</div>
+
     <h2 id="contentTitle">For you, my love ♡</h2>
+
+    <!-- FLOWERS -->
+
     <div id="flowerContent" class="hidden center">
-      <svg viewBox="0 0 300 240" style="width:min(100%,300px);height:auto" role="img" aria-label="A colourful cute bouquet illustration">
-        <path d="M150 108 Q133 164 104 211 M150 112 L151 215 M153 117 Q180 170 202 211 M139 144 Q107 126 94 108 Q125 111 145 147 M164 151 Q195 129 211 108 Q185 113 158 154" fill="none" stroke="#65ad77" stroke-width="7" stroke-linecap="round"/>
-        <path d="M86 174 L214 174 L190 230 L110 230 Z" fill="#ff9fc6" stroke="#ee7ba9" stroke-width="3"/>
-        <path d="M149 186 Q130 172 133 188 Q138 200 150 191 Q164 202 171 188 Q172 173 149 186" fill="#e94d91"/>
-        <g transform="translate(92 70) scale(1.1)"><ellipse cy="-18" rx="12" ry="19" fill="#ff8cae"/><ellipse cy="18" rx="12" ry="19" fill="#ff8cae"/><ellipse cx="-18" rx="19" ry="12" fill="#ff8cae"/><ellipse cx="18" rx="19" ry="12" fill="#ff8cae"/><circle r="12" fill="#ffd85e"/></g>
-        <g transform="translate(150 43) scale(1.15)"><ellipse cy="-18" rx="12" ry="19" fill="#b99af8"/><ellipse cy="18" rx="12" ry="19" fill="#b99af8"/><ellipse cx="-18" rx="19" ry="12" fill="#b99af8"/><ellipse cx="18" rx="19" ry="12" fill="#b99af8"/><circle r="12" fill="#ffdc6a"/></g>
-        <g transform="translate(209 73) scale(1.1)"><ellipse cy="-18" rx="12" ry="19" fill="#ffb74d"/><ellipse cy="18" rx="12" ry="19" fill="#ffb74d"/><ellipse cx="-18" rx="19" ry="12" fill="#ffb74d"/><ellipse cx="18" rx="19" ry="12" fill="#ffb74d"/><circle r="12" fill="#fff0a5"/></g>
-        <g transform="translate(123 111) scale(.9)"><ellipse cy="-18" rx="12" ry="19" fill="#ff6fa7"/><ellipse cy="18" rx="12" ry="19" fill="#ff6fa7"/><ellipse cx="-18" rx="19" ry="12" fill="#ff6fa7"/><ellipse cx="18" rx="19" ry="12" fill="#ff6fa7"/><circle r="12" fill="#ffe276"/></g>
-        <g transform="translate(179 113) scale(.9)"><ellipse cy="-18" rx="12" ry="19" fill="#78cbe8"/><ellipse cy="18" rx="12" ry="19" fill="#78cbe8"/><ellipse cx="-18" rx="19" ry="12" fill="#78cbe8"/><ellipse cx="18" rx="19" ry="12" fill="#78cbe8"/><circle r="12" fill="#fff0a5"/></g>
-        <g fill="#ff9fc6"><path d="M52 49 q-23 -27 -33 -5 q6 25 33 5"/><path d="M242 41 q23 -27 33 -5 q-6 25 -33 5"/></g>
-        <g fill="#e94d91" font-size="20"><text x="33" y="93">♥</text><text x="253" y="103">♥</text><text x="220" y="20">✦</text><text x="58" y="24">✦</text></g>
+
+      <svg class="flower-svg"
+           viewBox="0 0 300 240"
+           style="width:min(100%,300px);height:auto"
+           role="img"
+           aria-label="A colourful bouquet of flowers">
+
+        <path d="M150 108 Q133 164 104 211
+                 M150 112 L151 215
+                 M153 117 Q180 170 202 211
+                 M139 144 Q107 126 94 108
+                 Q125 111 145 147
+                 M164 151 Q195 129 211 108
+                 Q185 113 158 154"
+              fill="none" stroke="#65ad77"
+              stroke-width="7" stroke-linecap="round"/>
+
+        <path d="M86 174 L214 174 L190 230 L110 230 Z"
+              fill="#ff9fc6" stroke="#ee7ba9" stroke-width="3"/>
+
+        <path d="M149 186 Q130 172 133 188 Q138 200 150 191
+                 Q164 202 171 188 Q172 173 149 186"
+              fill="#e94d91"/>
+
+        <g transform="translate(92 70) scale(1.1)">
+          <ellipse cy="-18" rx="12" ry="19" fill="#ff8cae"/>
+          <ellipse cy="18" rx="12" ry="19" fill="#ff8cae"/>
+          <ellipse cx="-18" rx="19" ry="12" fill="#ff8cae"/>
+          <ellipse cx="18" rx="19" ry="12" fill="#ff8cae"/>
+          <circle r="12" fill="#ffd85e"/>
+        </g>
+
+        <g transform="translate(150 43) scale(1.15)">
+          <ellipse cy="-18" rx="12" ry="19" fill="#b99af8"/>
+          <ellipse cy="18" rx="12" ry="19" fill="#b99af8"/>
+          <ellipse cx="-18" rx="19" ry="12" fill="#b99af8"/>
+          <ellipse cx="18" rx="19" ry="12" fill="#b99af8"/>
+          <circle r="12" fill="#ffdc6a"/>
+        </g>
+
+        <g transform="translate(209 73) scale(1.1)">
+          <ellipse cy="-18" rx="12" ry="19" fill="#ffb74d"/>
+          <ellipse cy="18" rx="12" ry="19" fill="#ffb74d"/>
+          <ellipse cx="-18" rx="19" ry="12" fill="#ffb74d"/>
+          <ellipse cx="18" rx="19" ry="12" fill="#ffb74d"/>
+          <circle r="12" fill="#fff0a5"/>
+        </g>
+
+        <g transform="translate(123 111) scale(.9)">
+          <ellipse cy="-18" rx="12" ry="19" fill="#ff6fa7"/>
+          <ellipse cy="18" rx="12" ry="19" fill="#ff6fa7"/>
+          <ellipse cx="-18" rx="19" ry="12" fill="#ff6fa7"/>
+          <ellipse cx="18" rx="19" ry="12" fill="#ff6fa7"/>
+          <circle r="12" fill="#ffe276"/>
+        </g>
+
+        <g transform="translate(179 113) scale(.9)">
+          <ellipse cy="-18" rx="12" ry="19" fill="#78cbe8"/>
+          <ellipse cy="18" rx="12" ry="19" fill="#78cbe8"/>
+          <ellipse cx="-18" rx="19" ry="12" fill="#78cbe8"/>
+          <ellipse cx="18" rx="19" ry="12" fill="#78cbe8"/>
+          <circle r="12" fill="#fff0a5"/>
+        </g>
+
+        <g fill="#ff9fc6">
+          <path d="M52 49 q-23 -27 -33 -5 q6 25 33 5"/>
+          <path d="M242 41 q23 -27 33 -5 q-6 25 -33 5"/>
+        </g>
+
+        <g fill="#e94d91" font-size="20">
+          <text x="33" y="93">♥</text>
+          <text x="253" y="103">♥</text>
+          <text x="220" y="20">✦</text>
+          <text x="58" y="24">✦</text>
+        </g>
       </svg>
-      <p>Sending you a whole garden of happiness, hugs, and kisses. 🌷</p>
+
+      <h2>A bouquet just for you 🌼</h2>
+
+      <p>
+        Sending you a whole garden of happiness, hugs, and kisses.
+        If I could, I would fill your entire world with flowers. 🌷
+      </p>
     </div>
+
+    <!-- MEMORIES -->
+
     <div id="photoContent" class="hidden">
-      <p>Some of my favourite moments are the ones I get to share with you. ♡</p>
+      <p>
+        Some of my favourite moments are the ones I get to share with you.
+        Every memory with you means something special to me. ♡
+      </p>
+
       <div class="photo-grid">
-        <div class="photo-slot"><div class="photo-placeholder"><span>🖼️</span><strong>Our photo 1</strong><br><small>Add photo1.jpg to the website</small></div><img class="hidden" id="photo1" alt="Our memory 1"></div>
-        <div class="photo-slot"><div class="photo-placeholder"><span>🖼️</span><strong>Our photo 2</strong><br><small>Add photo2.jpg to the website</small></div><img class="hidden" id="photo2" alt="Our memory 2"></div>
-        <div class="photo-slot"><div class="photo-placeholder"><span>🖼️</span><strong>Our photo 3</strong><br><small>Add photo3.jpg to the website</small></div><img class="hidden" id="photo3" alt="Our memory 3"></div>
-        <div class="photo-slot"><div class="photo-placeholder"><span>🖼️</span><strong>Our photo 4</strong><br><small>Add photo4.jpg to the website</small></div><img class="hidden" id="photo4" alt="Our memory 4"></div>
+
+        <div class="photo-slot">
+          <div class="photo-placeholder">
+            <span>📸</span>
+            <strong>Our photo 1</strong><br>
+            <small>Add photo1.jpg</small>
+          </div>
+          <img src="photo1.jpg" alt="Our memory 1" class="hidden">
+        </div>
+
+        <div class="photo-slot">
+          <div class="photo-placeholder">
+            <span>📸</span>
+            <strong>Our photo 2</strong><br>
+            <small>Add photo2.jpg</small>
+          </div>
+          <img src="photo2.jpg" alt="Our memory 2" class="hidden">
+        </div>
+
+        <div class="photo-slot">
+          <div class="photo-placeholder">
+            <span>📸</span>
+            <strong>Our photo 3</strong><br>
+            <small>Add photo3.jpg</small>
+          </div>
+          <img src="photo3.jpg" alt="Our memory 3" class="hidden">
+        </div>
+
+        <div class="photo-slot">
+          <div class="photo-placeholder">
+            <span>📸</span>
+            <strong>Our photo 4</strong><br>
+            <small>Add photo4.jpg</small>
+          </div>
+          <img src="photo4.jpg" alt="Our memory 4" class="hidden">
+        </div>
+
       </div>
-      <p class="photo-note">💡 These are photo slots for now. I’ll show you how to upload your photos to GitHub so she can see them too.</p>
+
+      <p class="photo-note">
+        💗 These are our little memories. Upload your own photos named
+        photo1.jpg, photo2.jpg, photo3.jpg and photo4.jpg to the same
+        GitHub repository as this index.html file.
+      </p>
     </div>
+
+    <!-- LOVE LETTER -->
+
     <div id="letterContent" class="hidden">
-      <div class="letter" id="letterText">Happy birthday, my love. ♡
-
-[Write your own birthday letter here.]
-
-I hope today reminds you how loved and special you are. Thank you for being you.
-
-I love you, always. 💗</div>
+      <div class="letter" id="letterText"></div>
       <div class="signature">Always yours ♡</div>
     </div>
-    <div class="center" style="margin-top:22px"><button class="btn secondary" id="backBtn">Back to the gifts 🎀</button></div>
+
+    <div class="center" style="margin-top:22px">
+      <button class="btn secondary" id="backBtn" type="button">
+        Back to the gifts 🎀
+      </button>
+    </div>
   </section>
-  <div class="footer">made for you, and only you ♡</div>
+
+  <div class="footer">Made for you, and only you ♡</div>
+
 </main>
 
-<div id="unlockModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<!-- 1000% UNLOCK POPUP -->
+
+<div id="unlockModal"
+     class="modal-backdrop hidden"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="modalTitle">
+
   <div class="modal">
-    <div class="modal-emoji">🥳💗🎀</div>
+    <div class="modal-emoji">💗🎀🥰</div>
+
     <h2 id="modalTitle">1000% LOVE UNLOCKED!</h2>
-    <p>LOVE OVERFLOW!! 💖💖💖<br>You filled this little page with so much love!</p>
-    <button class="btn" id="showGiftsBtn">Open my surprises! 🎁</button>
+
+    <p>
+      Wait... 1000%?! ❤️<br>
+      You have officially stolen my whole heart!
+      <br><br>
+      I made a few little surprises just for you. 💖
+    </p>
+
+    <button class="btn" id="showGiftsBtn" type="button">
+      Open your gifts! 🎁
+    </button>
   </div>
 </div>
 
 <script>
-/* ✏️ PERSONALISE YOUR LETTER HERE.
-   Replace the sample words between the backticks with your own letter.
-   Keep the backticks (`) at the beginning and end. */
+/* =========================================
+   PERSONALISE YOUR BIRTHDAY LETTER HERE
+   Replace the sample letter inside the
+   backticks with your own message.
+   ========================================= */
+
 const MY_LETTER = `Happy birthday, my love. ♡
 
-[Write your own birthday letter here.]
+Today is all about you, my favourite person.
 
-I hope today reminds you how loved and special you are. Thank you for being you.
+Thank you for being part of my life, for all the memories we have made, and for all the little moments that mean so much to me.
 
-I love you, always. 💗`;
+No matter how many birthdays come and go, I hope I can keep making you smile, supporting your dreams, and loving you in all the little ways that matter.
+
+You deserve all the happiness, love, and beautiful things in this world.
+
+I hope this little surprise makes you smile today, just like you always make me smile.
+
+Happy birthday, my love. I love you, always. 💗`;
+
+
+/* =========================================
+   LOVE METER
+   First 0-100%, then reveal 1000%.
+   ========================================= */
 
 const range = document.getElementById('loveRange');
 const percent = document.getElementById('percent');
 const hint = document.getElementById('hint');
 const giftCard = document.getElementById('giftCard');
 const contentCard = document.getElementById('contentCard');
+const loveCard = document.getElementById('loveCard');
+
+let extended = false;
 let unlocked = false;
+
 range.addEventListener('input', () => {
-  const n = Number(range.value);
+  let n = Number(range.value);
+
+  // She has reached the apparent maximum.
+  if (n >= 100 && !extended) {
+    extended = true;
+
+    // Secretly extend the meter to 1000%.
+    range.max = 1000;
+    range.value = 100;
+
+    document.getElementById('rangeMin').textContent = '100%';
+    document.getElementById('rangeMax').textContent = '1000%';
+
+    percent.textContent = '100%';
+
+    hint.textContent =
+      "100% already?! Wait... there's MORE? Keep going, my love! 💗";
+
+    burst(18);
+    return;
+  }
+
+  n = Number(range.value);
   percent.textContent = n + '%';
-  if (n < 100) hint.textContent = "Psst… keep going, my love. There's a surprise waiting! ✨";
-  else if (n < 300) hint.textContent = "100% already?! Awww, but I bet your love is even bigger! 🥹";
-  else if (n < 600) hint.textContent = "300% LOVE! My heart is getting so full! 💗";
-  else if (n < 900) hint.textContent = "600%?! Someone's making me blush! 🙈💕";
-  else if (n < 1000) hint.textContent = "Almost 1000%… give that heart one last push! 🎀";
-  else {
-    hint.textContent = "1000% LOVE!! Our love meter has EXPLODED with cuteness! 💖";
+
+  if (n < 100) {
+    hint.textContent =
+      "Psst... keep going, my love. There's a surprise waiting! ✨";
+  } else if (n < 300) {
+    hint.textContent =
+      "Hehe, you found the secret! Let's see how far your love goes! 💗";
+  } else if (n < 600) {
+    hint.textContent =
+      "300% LOVE! My heart is getting so full! 💖";
+  } else if (n < 900) {
+    hint.textContent =
+      "600%?! I think I'm the luckiest person ever! 🥰";
+  } else if (n < 1000) {
+    hint.textContent =
+      "Almost there, my love! Just a little further! 🎀";
+  } else {
+    hint.textContent =
+      "1000% LOVE!! You have all my heart! ❤️";
+
     if (!unlocked) {
       unlocked = true;
+
       setTimeout(() => {
-        burst(70);
-        document.getElementById('unlockModal').classList.remove('hidden');
-      }, 300);
+        burst(75);
+        document.getElementById('unlockModal')
+          .classList.remove('hidden');
+      }, 350);
     }
   }
 });
-document.getElementById('showGiftsBtn').addEventListener('click', () => {
-  document.getElementById('unlockModal').classList.add('hidden');
-  document.getElementById('loveCard').classList.add('hidden');
-  giftCard.classList.remove('hidden');
-  giftCard.scrollIntoView({behavior:'smooth',block:'center'});
+
+
+/* =========================================
+   OPEN THE GIFTS PAGE
+   ========================================= */
+
+document.getElementById('showGiftsBtn')
+  .addEventListener('click', () => {
+
+    document.getElementById('unlockModal')
+      .classList.add('hidden');
+
+    loveCard.classList.add('hidden');
+    giftCard.classList.remove('hidden');
+
+    giftCard.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  });
+
+
+/* =========================================
+   GIFT CONTENT
+   Click a box to reveal the surprise.
+   ========================================= */
+
+const titles = {
+  flowers: 'A bouquet just for you 🌼',
+  memories: 'Our little world 📸',
+  letter: 'A letter from me 💌'
+};
+
+const kickers = {
+  flowers: 'A little garden of happiness',
+  memories: 'My favourite memories',
+  letter: 'To my favourite person'
+};
+
+document.querySelectorAll('[data-gift]').forEach(btn => {
+
+  btn.addEventListener('click', () => {
+
+    // Animate the selected gift box.
+    btn.classList.remove('opening');
+    void btn.offsetWidth;
+    btn.classList.add('opening');
+
+    // Show the correct gift content.
+    document.getElementById('flowerContent')
+      .classList.toggle('hidden', btn.dataset.gift !== 'flowers');
+
+    document.getElementById('photoContent')
+      .classList.toggle('hidden', btn.dataset.gift !== 'memories');
+
+    document.getElementById('letterContent')
+      .classList.toggle('hidden', btn.dataset.gift !== 'letter');
+
+    document.getElementById('contentKicker').textContent =
+      kickers[btn.dataset.gift];
+
+    document.getElementById('contentTitle').textContent =
+      titles[btn.dataset.gift];
+
+    document.getElementById('contentCard')
+      .classList.remove('hidden');
+
+    // Display the personal letter.
+    if (btn.dataset.gift === 'letter') {
+      document.getElementById('letterText').textContent = MY_LETTER;
+    }
+
+    // Load photos if they have been uploaded.
+    if (btn.dataset.gift === 'memories') {
+      document.querySelectorAll('.photo-slot img').forEach(img => {
+        const placeholder = img.parentElement
+          .querySelector('.photo-placeholder');
+
+        img.onload = () => {
+          img.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+        };
+
+        img.onerror = () => {
+          img.classList.add('hidden');
+          placeholder.classList.remove('hidden');
+        };
+
+        // Recheck the image in case it has already loaded.
+        if (img.complete && img.naturalWidth > 0) {
+          img.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+        }
+      });
+    }
+
+    contentCard.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+
+    if (btn.dataset.gift === 'flowers') {
+      burst(22);
+    }
+
+    if (btn.dataset.gift === 'letter') {
+      burst(12);
+    }
+  });
 });
-document.querySelectorAll('[data-gift]').forEach(btn => btn.addEventListener('click', () => {
-  document.getElementById('flowerContent').classList.toggle('hidden', btn.dataset.gift !== 'flowers');
-  document.getElementById('photoContent').classList.toggle('hidden', btn.dataset.gift !== 'memories');
-  document.getElementById('letterContent').classList.toggle('hidden', btn.dataset.gift !== 'letter');
-  const titles = {
-    flowers:['A bouquet just for you 🌼','A little garden of happiness'],
-    memories:['Our little world 📸','My favourite memories'],
-    letter:['A letter from me 💌','To my favourite person']
-  };
-  document.getElementById('contentKicker').textContent = 'Level 03 · your surprise';
-  document.getElementById('contentTitle').textContent = titles[btn.dataset.gift][0];
-  document.getElementById('contentCard').classList.remove('hidden');
-  if(btn.dataset.gift === 'letter') document.getElementById('letterText').textContent = MY_LETTER;
-  contentCard.scrollIntoView({behavior:'smooth',block:'center'});
-  if(btn.dataset.gift === 'flowers') burst(18);
-}));
-document.getElementById('backBtn').addEventListener('click', () => {
-  contentCard.classList.add('hidden');
-  giftCard.scrollIntoView({behavior:'smooth',block:'center'});
-});
-function burst(count){
-  const symbols=['💗','♡','🌸','💕','✨','🎀','🌷','💖'];
-  for(let i=0;i<count;i++){
-    const el=document.createElement('span');
-    el.className='particle';el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
-    el.style.left=Math.random()*100+'vw';
-    el.style.animationDuration=(2.2+Math.random()*2.8)+'s';
-    el.style.fontSize=(14+Math.random()*20)+'px';
+
+
+/* =========================================
+   BACK TO THE GIFTS
+   ========================================= */
+
+document.getElementById('backBtn')
+  .addEventListener('click', () => {
+
+    contentCard.classList.add('hidden');
+
+    giftCard.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  });
+
+
+/* =========================================
+   FALLING HEARTS AND SPARKLES
+   ========================================= */
+
+function burst(count) {
+
+  const symbols = [
+    '💗', '♡', '🌸', '💕',
+    '✨', '🎀', '🌷', '💖'
+  ];
+
+  for (let i = 0; i < count; i++) {
+
+    const el = document.createElement('span');
+
+    el.className = 'particle';
+
+    el.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    el.style.left = Math.random() * 100 + 'vw';
+
+    el.style.animationDuration =
+      (2.2 + Math.random() * 2.8) + 's';
+
+    el.style.fontSize =
+      (14 + Math.random() * 20) + 'px';
+
     document.body.appendChild(el);
-    setTimeout(()=>el.remove(),5200);
+
+    setTimeout(() => el.remove(), 5200);
   }
 }
 </script>
+
 </body>
-</html>'''
-path = Path("/mnt/data/birthday_surprise_website_v2.html")
-path.write_text(html, encoding="utf-8")
-print(f"Your updated birthday website is ready: {path}")
-path = Path("/mnt/data/birthday_surprise_website.html")
-path.write_text(html, encoding="utf-8")
-print(f"Created: {path} ({path.stat().st_size:,} bytes)")
+</html>
