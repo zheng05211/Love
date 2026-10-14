@@ -1323,8 +1323,6 @@ birthdayMusic.volume = 0.15;
 let birthdayAudio = null;
 let birthdayMusicOn = true;
 let birthdayStarted = false;
-let melodyTimer = null;
-let melodyStep = 0;
 let lastSliderSound = -10;
 
 
@@ -1401,19 +1399,6 @@ overtone.start(now);
 fundamental.stop(now + duration + 0.03);
 overtone.stop(now + duration + 0.03);
 }
-
-// A soft arpeggio instead of a loud chord
-playBirthdayNote(chord[0], now, 1.5, 0.045);
-playBirthdayNote(chord[1], now + 0.32, 1.4, 0.035);
-playBirthdayNote(chord[2], now + 0.64, 1.8, 0.03);
-
-// Add a gentle lower note
-playBirthdayNote(chord[0] / 2, now, 2.0, 0.018);
-
-melodyStep++;
-melodyTimer = setTimeout(playMelodyStep, 1900);
-}
-
 
 /* Start the birthday experience when tapped */
 beginBirthday.addEventListener('click', async () => {
